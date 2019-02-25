@@ -28,7 +28,7 @@ if (!function_exists('removeAction')) {
 }
 
 if (!function_exists('removeAllActions')) {
-    function removeAction($hook = null)
+    function removeAllActions($hook = null)
     {
         return \Eventy::removeAllActions($hook);
     }
@@ -49,7 +49,7 @@ if (!function_exists('removeFilter')) {
 }
 
 if (!function_exists('removeAllFilters')) {
-    function removeAction($hook = null)
+    function removeAllFilters($hook = null)
     {
         return \Eventy::removeAllFilters($hook);
     }
