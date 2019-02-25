@@ -34,6 +34,6 @@ class CreateTasarThemesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasar_tables');
+        Schema::dropIfExists('tasar_themes');
     }
 }
