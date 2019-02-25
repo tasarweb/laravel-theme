@@ -27,6 +27,13 @@ if (!function_exists('removeAction')) {
     }
 }
 
+if (!function_exists('removeAllActions')) {
+    function removeAction($hook = null)
+    {
+        return \Eventy::removeAllActions($hook);
+    }
+}
+
 if (!function_exists('addFilter')) {
     function addFilter($hook, $callback, $priority = 20, $arguments = 1)
     {
@@ -38,5 +45,12 @@ if (!function_exists('removeFilter')) {
     function removeFilter($hook, $callback, $priority = 20)
     {
         return \Eventy::removeFilter($hook, $callback, $priority);
+    }
+}
+
+if (!function_exists('removeAllFilters')) {
+    function removeAction($hook = null)
+    {
+        return \Eventy::removeAllFilters($hook);
     }
 }
