@@ -3,6 +3,7 @@
 namespace Tasar\Theme;
 
 use File;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Tasar\Theme\Models\TasarTheme;
 
