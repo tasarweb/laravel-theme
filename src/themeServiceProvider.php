@@ -19,10 +19,12 @@ class themeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (TasarTheme::all()->count() === 0)
-            \Tasar\Theme\Facades\Theme::insertThemes();
+        if (Schema::hasTable('tasar_themes')) {
+            if (TasarTheme::all()->count() === 0)
+                \Tasar\Theme\Facades\Theme::insertThemes();
 
-        $this->activeTheme = \Tasar\Theme\Facades\Theme::getActiveTheme();
+            $this->activeTheme = \Tasar\Theme\Facades\Theme::getActiveTheme();
+        }
 
         $this->themePath = public_path('themes/') . $this->activeTheme;
 
