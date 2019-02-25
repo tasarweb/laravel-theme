@@ -1,0 +1,31 @@
+{
+    "name": "tasar/laravel-theme",
+    "description": "Theme package for laravel 5+",
+	"keywords": ["themes", "views", "assets", "blade", "laravel", "laravel-5", "package"],
+    "homepage": "https://github.com/tasarweb/laravel-theme",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tasar",
+            "email": "info@tasarweb.ir"
+        }
+    ],
+	"autoload": {
+        "psr-4": {
+            "Tasar\\Theme\\": "src/"
+        }
+    },
+    "require": {
+        "tormjens/eventy": "^0.5.4"
+	},
+	"extra": {
+        "laravel": {
+            "providers": [
+                "Tasar\\Theme\\themeServiceProvider"
+            ],
+            "aliases": {
+                "Theme": "Tasar\\Theme\\Facades\\Theme"
+            }
+        }
+    }
+}
