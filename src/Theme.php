@@ -17,7 +17,7 @@ use Tasar\Theme\Models\TasarTheme;
  */
 class Theme
 {
-    private $activeTheme = 'Default';
+    private $activeTheme;
 
     public function __construct()
     {
@@ -32,11 +32,19 @@ class Theme
         return $this->getThemeInfo(count($arg) === 0 ? null : $arg[0], substr($method, 8));
     }
 
-    public function setActiveTheme()
+    private function setActiveTheme()
     {
         $active = TasarTheme::where('is_active', 1);
         if ($active->exists() && $this->themeExists($active->first()->dir))
             $this->activeTheme = $active->first()->dir;
+        else {
+            $default = TasarTheme::where('dir', 'Default')->get()->first();
+            if ($default->exists() && $this->themeExists($default->dir)) {
+                $default->is_active = true;
+                $default->save();
+                $this->activeTheme = $default->dir;
+            }
+        }
     }
 
     public function getActiveTheme()
@@ -51,13 +59,13 @@ class Theme
      * @param String|null $value
      * @return array|bool|mixed
      */
-    public function getThemeInfo(String $themeName = null, String $value = null)
+    public function getThemeInfo(String $themeDir = null, String $value = null)
     {
-        if ($themeName === null)
-            $themeName = $this->activeTheme;
-        $file = $this->themeExists($themeName);
+        if ($themeDir === null)
+            $themeDir = $this->activeTheme;
+        $file = $this->themeExists($themeDir);
         if ($file) {
-            $info = file_get_contents(public_path("themes/$themeName/theme.json"));
+            $info = file_get_contents(public_path("themes/$themeDir/theme.json"));
             $themeInfo = json_decode($info, true);
             if ($value === null || $value === '')
                 return $themeInfo;
@@ -82,7 +90,7 @@ class Theme
     /**
      * Get all of the directories within a given directory.
      *
-     * @param  string $directory
+     * @param string $directory
      * @return array
      */
     private function directories(String $directory)
@@ -114,6 +122,18 @@ class Theme
                 );
             }
         }
+
+        $this->databaseClean($themes);
+
         return true;
+    }
+
+    private function databaseClean(array $themeFolders)
+    {
+        $themes = TasarTheme::select('id', 'dir')->get();
+        foreach ($themes as $theme) {
+            if (!in_array($theme->dir, $themeFolders))
+                $theme->delete($theme->id);
+        }
     }
 }
